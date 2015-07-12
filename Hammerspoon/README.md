@@ -25,7 +25,9 @@
 
 [Mac 多显示器快速移动鼠标 ](http://www.jianshu.com/p/3d62c18c0c78)  
 
-以上这些都不是今天要说的重点。今天要说的是利用Hammerspoon的运行AppleScript功能来快速切换工作环境。这件事的起因是在V2EX上看到有人问OS X上有没有是那么软件可以快速切换工作环境。[V2EX](https://www.v2ex.com/t/203090#reply35)
+## 以上这些都不是今天要说的重点。
+
+今天要说的是利用Hammerspoon的运行AppleScript功能来快速切换工作环境。这件事的起因是在V2EX上看到有人问OS X上有没有是那么软件可以快速切换工作环境。[V2EX](https://www.v2ex.com/t/203090#reply35)
 
 > 假设同时在做多个项目，每个项目都打开了自己相关的浏览器，IDE 等，而且部分软件是全屏的。有没有一个软件可以隐藏（或最小化）其它项目的窗口，只显示当前项目的相关窗口。
 > 
@@ -56,7 +58,11 @@
 
 这样就基本上实现快速切换workspace的功能。当然，缺点还是不少的，由于脚本语言的限制，一个workspace至少需要三个快捷键组合。
 
-另外Hammerspoon的窗口隐藏功能，只是调用系统的hide，并不能在dock和⌘+TAB隐藏。这样在程序或者窗口切换的时候可能还是面临一大堆的窗口。要弥补这个缺陷就需要另外一个软件了[GhostTile,隐藏 Dock 上运行 App 的小工具](https://www.v2ex.com/t/107516#reply71)。利用这个工具可以实现窗口和dock icon还有 ⌘+tab的隐藏。而且因为它自带了workflow支持，所以Hammerspoon也可以调用它的功能，如图：
+另外Hammerspoon的窗口隐藏功能，只是调用系统的hide，并不能在dock和⌘+TAB隐藏。这样在程序或者窗口切换的时候可能还是面临一大堆的窗口。要弥补这个缺陷就需要另外一个软件了[GhostTile,隐藏 Dock 上运行 App 的小工具](https://www.v2ex.com/t/107516#reply71)。
+
+![GhostTile](Snip20150713_9.png)
+
+利用这个工具可以实现窗口和dock icon还有 ⌘+tab的隐藏。而且因为它自带了workflow支持，所以Hammerspoon也可以调用它的功能，如图：
 
 ![GhostTile](Snip20150713_1.png)
 
@@ -157,3 +163,7 @@ app的路径和名字的这个不用讲。bundleID也可以获得`hs.application
 
 
 啰嗦了一大堆，用了两个软件基本的需求才满足，离完美都很远。希望新版OSX真的有workspace功能，或者有人开发这么个软件。虽然功能看起来跟使用不同的用户有一些重叠。
+
+最后说下[]()[Hammerspoon](https://github.com/Hammerspoon/hammerspoon)是开源的免费软件。[GhostTile](http://ghosttile.kernelpanic.im/)是国人编写的收费软件。比较贵。。。免费版没有功能限制，只是偶尔会弹出个提示框，平时使用没问题。但是如果你要是用workflow或者命令行调用，比如从Hammersooon中调用，那么如果正好碰上弹出提示框，那么这次调用就会失败，所以要想顺畅的使用还是需要购买一下的。
+
+![GhostTile](Snip20150713_8.png)
