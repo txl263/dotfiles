@@ -56,10 +56,104 @@
 
 这样就基本上实现快速切换workspace的功能。当然，缺点还是不少的，由于脚本语言的限制，一个workspace至少需要三个快捷键组合。
 
-另外Hammerspoon的窗口隐藏功能，只是调用系统的hide，并不能在dock和⌘+TAB隐藏。这样在程序或者窗口切换的时候可能还是面临一大堆的窗口。要弥补这个缺陷就需要另外一个软件了[GhostTile,隐藏 Dock 上运行 App 的小工具](https://www.v2ex.com/t/107516#reply71)。利用这个工具可以实现窗口和dock icon还有 ⌘+tab的隐藏。因为它自带了workflow支持，如图：
+另外Hammerspoon的窗口隐藏功能，只是调用系统的hide，并不能在dock和⌘+TAB隐藏。这样在程序或者窗口切换的时候可能还是面临一大堆的窗口。要弥补这个缺陷就需要另外一个软件了[GhostTile,隐藏 Dock 上运行 App 的小工具](https://www.v2ex.com/t/107516#reply71)。利用这个工具可以实现窗口和dock icon还有 ⌘+tab的隐藏。而且因为它自带了workflow支持，所以Hammerspoon也可以调用它的功能，如图：
 
-![./Snip20150713_1.png](GhostTile)
+![GhostTile](Snip20150713_1.png)
+
+可以实现Add、hide、unhide、remove，双击右边的Run Script![Run Script](Snip20150713_6.png)
+
+就看到是怎么通过脚本调用的啦，比如：
+
+![ghost.py](Snip20150713_7.png)
+
+可以看到`/usr/bin/python ./ghost.py add "{query}”`是调用的`ghost.py`这个脚本。
+
+打开这个脚本可以看到下面的内容：
+
+``` python
+#!/usr/bin/python
+
+from AppKit import NSWorkspace
+from Foundation import NSURL
+import sys
+import os
+import plistlib
+
+def main():
+
+    if len(sys.argv) < 3:
+        return
+
+    action = sys.argv[1]
+    the_query = sys.argv[2]
+
+    workspace = NSWorkspace.sharedWorkspace()
+    url_string = None
+
+    if action == 'add':
+        import base64
+        encoded_query = base64.urlsafe_b64encode(the_query)
+        print(encoded_query)
+        url_string = 'ghosttile://add?app_path=%s' % encoded_query
+    elif action == 'remove':
+        url_string = "ghosttile://remove?bundle_id=%s" % get_bundle_id(the_query)
+    elif action == 'hide':
+        url_string = "ghosttile://hide?bundle_id=%s" % get_bundle_id(the_query)
+    elif action == 'unhide':
+        url_string = "ghosttile://unhide?bundle_id=%s" % get_bundle_id(the_query)
+
+    url = NSURL.URLWithString_(url_string)
+    print(url)
+    workspace.openURL_(url)
+
+def get_bundle_id(the_query):
+    bundle_id = the_query
+    if os.path.isdir(the_query):
+        try:
+            info_plist = the_query + "/Contents/Info.plist"
+            plist = plistlib.readPlist(info_plist)
+            bundle_id = plist['CFBundleIdentifier']
+        except Exception, e:
+            pass
+    return bundle_id
+
+if __name__ == '__main__':
+    main()
+
+```
+
+从上面的代码很容易就能找到我们需要的内容，从命令行也可以实现了：
+
+add:`python ghost.py add AppFullPath`
+
+hide、unhide、remove:``python ghost.py hide bundleID`
+
+这里需要注意的就是add的参数是app的路径和名字，其它方法的参数是`bundleID`。ghost.py可以放在任意位置，调用的时候加路径就可以了，python加不加路径就看你的系统设置了。
+
+然后在Hammerspoon里想要调用GhostTile的功能只需要利用它的执行AppleScript功能就可以了。AppleScript就是这样写：
+
+`do shell script "python ghost.py add AppFullPath”`
+
+Hammerspoon执行他就是`hs.applescript.applescript(str)`这样。
+
+app的路径和名字的这个不用讲。bundleID也可以获得`hs.application:bundleID()`
+
+`hs.application`怎么获得呢，有几种方法:
+
+`hs.application.launchOrFocus`Launches the app with the given name, or activates it if it's already running
+
+`hs.application.runningApplications()`Returns all running apps.
+
+或者先找到程序运行的窗口：
+
+`hs.application:visibleWindows()`Returns only the app's windows that are visible.
+
+`hs.window.visibleWindows() `Gets all visible windows
+
+然后得到这些窗口所属的程序：
+
+`hs.window:application()` Gets the `hs.application` object the window belongs to
 
 
 
-啰嗦了一大堆，基本的需求是满足啦，但是离完美都很远。希望新版OSX真的有workspace功能，或者有人开发这么个软件。虽然功能看起来跟使用不同的用户有一些重叠。
+啰嗦了一大堆，用了两个软件基本的需求才满足，离完美都很远。希望新版OSX真的有workspace功能，或者有人开发这么个软件。虽然功能看起来跟使用不同的用户有一些重叠。
