@@ -15,7 +15,11 @@
 
 狭义的说它是一款可高度定制的窗口管理器，使用Lua脚本。程序员和键盘党可以按自己的需要和习惯自定义各种组合键来实现窗口的定位、移动、调节大小。广义的说它是一个自动化工具，可以扩展mac的快捷键、控制窗口大小、运行AppleScript、控制iTunes、监控wifi、地理位置等。
 
-关于这些网上的介绍和实例有不少。[官网](http://www.hammerspoon.org/)上面有入门文档和API文档。Github上的[]()[Sample Configurations](https://github.com/Hammerspoon/hammerspoon/wiki/Sample-Configurations) 。
+Hammerspoon没有窗口界面，dock icon也可以隐藏，然后安静的待在菜单栏里。
+
+![内存占用](Snip20150713_10.png)
+
+[官网](http://www.hammerspoon.org/)上面有入门文档和API文档。Github上也有[]()[Sample Configurations](https://github.com/Hammerspoon/hammerspoon/wiki/Sample-Configurations) 。
 
 还有下面几个不错的博客。
 
@@ -164,6 +168,10 @@ app的路径和名字的这个不用讲。bundleID也可以获得`hs.application
 
 啰嗦了一大堆，用了两个软件基本的需求才满足，离完美都很远。希望新版OSX真的有workspace功能，或者有人开发这么个软件。虽然功能看起来跟使用不同的用户有一些重叠。
 
-最后说下[]()[Hammerspoon](https://github.com/Hammerspoon/hammerspoon)是开源的免费软件。[GhostTile](http://ghosttile.kernelpanic.im/)是国人编写的收费软件。比较贵。。。免费版没有功能限制，只是偶尔会弹出个提示框，平时使用没问题。但是如果你要是用workflow或者命令行调用，比如从Hammersooon中调用，那么如果正好碰上弹出提示框，那么这次调用就会失败，所以要想顺畅的使用还是需要购买一下的。
+最后说下[]()[Hammerspoon](https://github.com/Hammerspoon/hammerspoon)是开源的免费软件。也比较活跃。你可以到Github上提交你的问题和建议，前天我刚问了个关于caps lock状态的问题，第二天就有人回答然后提交了新的代码。
+
+[GhostTile](http://ghosttile.kernelpanic.im/)是国人编写的收费软件。收费版小贵。。。免费版没有功能限制，只是偶尔会弹出个提示框，平时使用没问题。但是如果你要是用workflow或者命令行调用，比如从Hammersooon中调用，那么如果正好碰上弹出提示框，那么这次调用就会失败，所以要想顺畅的使用还是需要购买一下的。
 
 ![GhostTile](Snip20150713_8.png)
+
+07-13-2015 
