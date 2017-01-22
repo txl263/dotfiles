@@ -1,2 +1,2 @@
 # dotfiles
-My configuration dot files on OS X 
+My configuration dot files on OS X and Linux.
